@@ -1,0 +1,64 @@
+This is an extension of puppet-interface.
+
+# Installation
+==============
+
+upgrade puppet to 2.6.5 or above
+
+install puppet-interface
+
+#>git clone https://github.com/lak/puppet-interfaces
+
+install puppet-interface-utils
+
+#>git clone https://github.com/puppetlabs/interface-utils
+
+add puppet-interfaces and interface-utils lib dirs to RUBYLIB
+
+export RUBYLIB=`pwd`/puppet-interfaces/lib/:`pwd`/interface-utils/lib/:$RUBYLIB
+
+# Interfaces
+============
+
+provides wrappers around the existing indirectors/termini
+
+I have been working with Luke to create interfaces that
+are not wrappers for indirectors
+
+for a full list of functionality run(after setting RUBYLIB):
+
+#>puppet interface list
+
+this should list the interfaces provided by puppet-interface-utils
+
+interfaces are always called from the command line as:
+
+#> puppet <interface_name> <action_name>
+
+for example:
+
+#> puppet parser get__class_names
+
+- parser
+  get_class_names - get the names of all classes from modulepath 
+  get_classes - get all classes from modulepath
+  get_node_names - get the names of the nodes 
+  get_nodes - get the AST nodes
+
+- test
+  check_tests = list all manifests that are missing tests
+  compile_tests = compile catalogs for all module tests 
+    --run_noop = run the catalogs as noop after you compile them
+
+- dashboard
+  puppet dashboard import_classes --dashboard_path=/usr/local/dev/puppet-dashboard/
+    import all classes from specified modulepath into the Dashboard
+
+# Interfaces as an API
+======================
+
+Interfaces can also be used programatically:
+
+> require 'puppet/interface/parser'
+> interface = Puppet::Interface::Parser.new
+> classes = interface.get_classes([])
