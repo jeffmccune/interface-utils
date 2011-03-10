@@ -33,9 +33,10 @@ class Puppet::Application::Test < Puppet::Application::InterfaceBase
               if v['results'] == :failed_to_run
                 transformed_results[:failed_to_run] ||= []
                 transformed_results[:failed_to_run].push(k)
+              else
+                transformed_results[v['results'].status] ||= []
+                transformed_results[v['results'].status].push(k) 
               end
-              transformed_results[v['results'].status] ||= []
-              transformed_results[v['results'].status].push(k) 
             end
           end
         end

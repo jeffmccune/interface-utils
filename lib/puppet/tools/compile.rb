@@ -3,7 +3,7 @@ module Puppet::Tools
   module Compile 
   # take a list of manifests and compile catalogs
   # NOTE - this assumes that there are no '-' in the modulename
-    def compile_module_tests(testfiles, run_noop=false)
+    def compile_module_tests(testfiles, run_noop=false, noop_exclude=[])
       # TODO - I should be able to pick any fact cache
       results = {}
       testfiles.each do |test|
@@ -19,6 +19,7 @@ module Puppet::Tools
         noop_status = nil
         catalog = catalog || :failed_to_compile
         results[node_name]['catalog'] = catalog
+        puts node_name
         if run_noop and catalog != :failed_to_compile
           # TODO - I should be saving the status that is returned
           results[node_name]['results'] = noop_run(catalog)
