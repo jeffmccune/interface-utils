@@ -31,15 +31,16 @@ module Puppet::Tools
 
     # given a catalog, run it in noop mode
     def noop_run(catalog)
-      catalog = catalog.to_ral
-      Puppet[:noop] = true
-      require 'puppet/configurer'
-      configurer = Puppet::Configurer.new
       begin
+        catalog = catalog.to_ral
+        Puppet[:noop] = true
+        require 'puppet/configurer'
+        configurer = Puppet::Configurer.new
         Puppet[:pluginsync] = false
         status = configurer.run(:catalog => catalog)
       rescue
         Puppet.err("Exception when noop running catalog #{$!}")
+        :failed_to_run
       end
     end
     # compile a catalog from a node's yaml
