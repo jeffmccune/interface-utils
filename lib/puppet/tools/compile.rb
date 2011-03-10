@@ -19,7 +19,6 @@ module Puppet::Tools
         noop_status = nil
         catalog = catalog || :failed_to_compile
         results[node_name]['catalog'] = catalog
-        puts node_name
         if run_noop and catalog != :failed_to_compile
           # TODO - I should be saving the status that is returned
           results[node_name]['results'] = noop_run(catalog)
