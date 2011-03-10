@@ -30,6 +30,10 @@ class Puppet::Application::Test < Puppet::Application::InterfaceBase
           else
             transformed_results['compiled'].push(k)
             if @options[:run_noop]
+              if v['results'] == :failed_to_run
+                transformed_results[:failed_to_run] ||= []
+                transformed_results[:failed_to_run].push(k)
+              end
               transformed_results[v['results'].status] ||= []
               transformed_results[v['results'].status].push(k) 
             end
